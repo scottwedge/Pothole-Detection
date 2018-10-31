@@ -3,6 +3,8 @@ import os
 
 def  BoundingBoxes(img, pos, boundedFolder, counter):
 
+
+
     try:
         im = Image.open(img)
         print("Image Opened")

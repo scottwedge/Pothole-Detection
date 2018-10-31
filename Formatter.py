@@ -56,6 +56,8 @@ def ParsData(rootPath, trainingFile):
             counter += 1
         return parsed
 
+
+
 def LoadFile(imageFolder, parsData):
     imageList = []
 
