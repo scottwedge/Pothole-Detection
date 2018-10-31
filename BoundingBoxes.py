@@ -2,8 +2,6 @@ from PIL import Image, ImageDraw
 import os
 
 def  BoundingBoxes(img, pos, boundedFolder, counter):
-    print(counter)
-
 
     try:
         im = Image.open(img)
@@ -15,6 +13,7 @@ def  BoundingBoxes(img, pos, boundedFolder, counter):
     if key == True:
         draw = ImageDraw.Draw(im)
         for j in range(len(pos)):
+            draw.re
             draw.rectangle((int(pos[j][0]),int(pos[j][1]),int(pos[j][2])+int(pos[j][0]),int(pos[j][3])+int(pos[j][1])), outline="black")
             print("Box Drawn")
         #im.show()
