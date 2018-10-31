@@ -1,10 +1,14 @@
 import os
 from PIL import Image
+from pathlib import Path
+
 from BoundingBoxes import BoundingBoxes
 
-def ParsData(trainingFile):
+def ParsData(rootPath, trainingFile):
 
     counter = 0
+
+
     with open(trainingFile) as file:
         for line in file.readlines():
             parsedData = []
@@ -17,13 +21,20 @@ def ParsData(trainingFile):
             parsesdFile = parsedFile.append(fileType[0]+"/"+fileType[1]+"/")
 
             try:
-                img = "C:/CNN/Pothole Dataset/Potholes Dataset/Dataset 1 Simplex/Train data/Positive data/"+fileType[2]+".jpg"
+                img = rootPath+"/Dataset 1 (Simplex)/Train data/Positive data/"+fileType[2]+".jpg"
             except:
                 img = None
 
             tempData = tempLine[1].split(" ")
-            tempData.remove('')
-            tempData.remove('\n')
+
+            try:
+                tempData.remove('')
+            except:
+                continue
+            try:
+                tempData.remove('\n')
+            except:
+                continue
 
             for i in range(len(tempData)):
                 if tempData[idx] == '':
@@ -39,4 +50,4 @@ def ParsData(trainingFile):
             counter += 1
 
 
-if __name__ == '__main__': ParsData("simpleTrainFullPhotosSortedFullAnnotations.txt")
+if __name__ == '__main__': ParsData('/'.join(str(Path().absolute()).split('\\')), "simpleTrainFullPhotosSortedFullAnnotations.txt")
