@@ -20,7 +20,7 @@ def ParsData(rootPath, trainingFile):
             tempLine = line
             tempLine = tempLine.split(".bmp")
             fileType = tempLine[0].split("\\")
-            parsesdFile = parsedFile.append(fileType[0]+"/"+fileType[1]+"/")
+            #parsesdFile = parsedFile.append(fileType[0]+"/"+fileType[1]+"/")
             """
             #Only needed for testing
             try:
@@ -48,21 +48,41 @@ def ParsData(rootPath, trainingFile):
                         idx = idx + 4
                     except:
                         continue
-
+            #print(parsedData[0])
             tempParsed.append(parsedData)
-            tempParsed.append(parsedFile)
+            #tempParsed.append(parsedFile)
+            #print(fileType[2])
             tempParsed.append(fileType[2])
             parsed.append(tempParsed)
+            #print(parsed[0])
             #BoundingBoxes(img, parsedData, parsedFile, counter)#was only needed for testing
             counter += 1
         return parsed
 
-def LoadFile(imageFolder):
-    image_list = []
-    for filename in glob.glob(imageFolder+'/*.jpg'): #assuming gif\
-        #print(filename)
-        im=Image.open(filename)
-        image_list.append(im)
-    return image_list
+def LoadFile(imageFolder, parsedData):
+
+    imageList = []
+    imageInfo = []
+    counter = 0
+    if parsedData == "Negative":
+        for fileName in glob.glob(imageFolder+'/*.jpg'):
+            im=Image.open(fileName)
+            imageInfo.append(im)
+            imageInfo.append(None)
+            imageList.append(imageInfo)
+            imageInfo = []
+    else:
+        for s in parsedData[counter][1]:
+            for fileName in glob.glob(imageFolder+'/*.jpg'):
+                for counter in range(len(parsedData)):
+                    s = parsedData[counter][1]
+                    if s in fileName:
+                        im=Image.open(fileName)
+                        imageInfo.append(im)
+                        imageInfo.append(parsedData[counter][0])
+                        imageList.append(imageInfo)
+
+                    imageInfo = []
+    return imageList
 
 if __name__ == '__main__': ParsData('/'.join(str(Path().absolute()).split('\\')), "simpleTrainFullPhotosSortedFullAnnotations.txt")
