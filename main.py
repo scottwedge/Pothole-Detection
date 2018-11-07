@@ -1,6 +1,7 @@
-
+import Preprocess
 import Formatter
 from pathlib import Path
+from PIL import Image
 
 def main():
     rootPath = '/'.join(str(Path().absolute()).split('\\'))
@@ -11,15 +12,23 @@ def main():
     parsedData = Formatter.ParsData(rootPath, rootPath+folderPath+'/'+trainingFile) #[[xy position, type, image]
 
     #Load Training Images
-    posTrainingImgs = Formatter.LoadFile(rootPath+folderPath+"/Train data/Positive data", parsedData)
-    #print(posTrainingImgs[0])
+    posTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Positive data", parsedData)
     print("Positive Trainging Images Loaded")
-    negTrainingImgs = Formatter.LoadFile(rootPath+folderPath+"/Train data/Negative data", "Negative")
+    negTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Negative data", "Negative")
     print("Negative Training Images Loaded")
-    #print(negTrainingImgs[0])
-    #negTrainingImgs[0][0].show()
 
     #Preprocessing
+        #Aspect Ratio
+    newWidth = 200
+    newHight = 200
+    counter = 0
+    for im in range(len(posTrainingImgs)):
+        im = posTrainingImgs[counter][0]
+        im = im.crop((1667,1,5,1667))#Not what I wanted it resized not cropped i'm a dummy
+        #im.save(str(counter)+".JPG")
+        counter += 1
+        im.show()
+        exit()
         """
         1) Uniform Aspect Ratio -- we'll want to crop the image into a square and detemin where in the image we want to be looking
             pass
