@@ -15,10 +15,9 @@ def  BoundingBoxes(img, pos, boundedFolder, counter):
     if key == True:
         draw = ImageDraw.Draw(im)
         for j in range(len(pos)):
-            draw.re
             draw.rectangle((int(pos[j][0]),int(pos[j][1]),int(pos[j][2])+int(pos[j][0]),int(pos[j][3])+int(pos[j][1])), outline="black")
             print("Box Drawn")
-        #im.show()
+        im.show()
         try:
             #print(boundedFolder[0])
             im.save(boundedFolder[0]+str(counter)+".jpg")

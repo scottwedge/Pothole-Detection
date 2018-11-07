@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 from pathlib import Path
+import glob
 
 from BoundingBoxes import BoundingBoxes
 
@@ -56,23 +57,12 @@ def ParsData(rootPath, trainingFile):
             counter += 1
         return parsed
 
-
-
-def LoadFile(imageFolder, parsData):
-    imageList = []
-
-    dataSize = len(parsData)
-    print(parsData[0][2])
-    for idx in range(dataSize):
-        imgPath = imageFolder+"/"+str(parsData[idx][2])+".jpg"
-        try:
-            img = Image.open(imgPath)
-            imageList.append(img)
-            print("Image Found")
-        except:
-            j = 0
-            print("No Image Found")
-
-    return imageList
+def LoadFile(imageFolder):
+    image_list = []
+    for filename in glob.glob(imageFolder+'/*.jpg'): #assuming gif\
+        #print(filename)
+        im=Image.open(filename)
+        image_list.append(im)
+    return image_list
 
 if __name__ == '__main__': ParsData('/'.join(str(Path().absolute()).split('\\')), "simpleTrainFullPhotosSortedFullAnnotations.txt")
