@@ -19,9 +19,12 @@ def main():
 
     #Preprocessing
         #Aspect Ratio
-    posTrainingImgs = Preprocess.Crop(posTrainingImgs, rootPath+folderPath, "Train data/Positive data/")
-    negTrainingImgs = Preprocess.Crop(negTrainingImgs, rootPath+folderPath, "Train data/Negative data/")
 
+    bounds = (765,0,3185,2420)
+    posTrainingImgs = Preprocess.Crop(posTrainingImgs, rootPath+folderPath, "Train data/Positive data", bounds)
+    print("Positive Trainging Images Cropped")
+    negTrainingImgs = Preprocess.Crop(negTrainingImgs, rootPath+folderPath, "Train data/Negative data", bounds)
+    print("Negative Training Images Cropped")
     """
         1) Uniform Aspect Ratio -- we'll want to crop the image into a square and detemin where in the image we want to be looking
             pass
