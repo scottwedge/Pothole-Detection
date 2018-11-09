@@ -32,21 +32,11 @@ def LoadFile(imageFolder, parsedData):
     return imageList
 
 def Crop(imgList, path, type, bounds):
-    counter = 0
+    idx = 0
     newImgList = []
     tempList = []
-    print(imgList[0])
-    for im in range(len(imgList)):
-        im = imgList[counter][0]
-        im = im.crop(bounds)#Crops image to a 2420X2420
-        imgList[counter][0] = im
-        """
-        try:
-            im.save(path+"/Croped/"+type+"/"+str(counter)+".JPG")
-        except:
-            os.mkdir(path+"/Croped/"+type)
-            im.save(path+"/Croped/"+type+"/"+str(counter)+".JPG")
-        """
-        counter += 1
+    
+    for idx in range(len(imgList)):
+        imgList[idx][0] = imgList[idx][0].crop(bounds)#Crops image to a 2420X2420
 
     return imgList
