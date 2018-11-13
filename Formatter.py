@@ -1,8 +1,13 @@
 import os
 from BoundingBoxes import BoundingBoxes
 
-def ParsData(rootPath, trainingFile):
+def ParsData(trainingFile):
+    """Parses text file to extract the pothole location according to pixels, the type of data training/testing positive/negative, and image name
 
+        :param trainingFile:    text file with information about dataset
+        :type  trainingFile:    String
+        :returns:               parsed
+    """
     counter = 0
 
     parsed = []
@@ -16,14 +21,6 @@ def ParsData(rootPath, trainingFile):
             tempLine = line
             tempLine = tempLine.split(".bmp")
             fileType = tempLine[0].split("\\")
-            parsesdFile = parsedFile.append(fileType[0]+"/"+fileType[1]+"/")
-            """
-            #Only needed for testing
-            try:
-                img = rootPath+"/Dataset 1 (Simplex)/Train data/Positive data/"+fileType[2]+".jpg"
-            except:
-                img = None
-                """
             tempData = tempLine[1].split(" ")
 
             try:
@@ -46,10 +43,9 @@ def ParsData(rootPath, trainingFile):
                         continue
 
             tempParsed.append(parsedData)
-            tempParsed.append(parsedFile)
-            #print(fileType[2])
             tempParsed.append(fileType[2])
             parsed.append(tempParsed)
+
             #print(parsed[0])
             #BoundingBoxes(img, parsedData, parsedFile, counter)#was only needed for testing
             counter += 1

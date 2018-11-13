@@ -7,24 +7,27 @@ def main():
     rootPath = '/'.join(str(Path().absolute()).split('\\'))
     folderPath = "/Dataset 1 (Simplex)"
     trainingFile = "simpleTrainFullPhotosSortedFullAnnotations.txt"
-
+    bounds = (765,0,3185,2420)
     #Format Data
-    parsedData = Formatter.ParsData(rootPath, rootPath+folderPath+'/'+trainingFile) #[[xy position, type, image]
-    print(parsedData[0][1][0])
-    #Load Training Images
-    posTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Positive data", parsedData)
+    parsedData = Formatter.ParsData(rootPath+folderPath+'/'+trainingFile) #[[xy position], type, image]
+    #print(parsedData[0])
+    posTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Positive data", parsedData, type = "jpg")
     print("Positive Trainging Images Loaded")
-    negTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Negative data", "Negative")
+    negTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Negative data", parsedData="Negative", type = "jpg")
     print("Negative Training Images Loaded")
+    
 
     #Preprocessing
         #Aspect Ratio
 
-    bounds = (765,0,3185,2420)
-    posTrainingImgs = Preprocess.Crop(posTrainingImgs, rootPath+folderPath, "Train data/Positive data", bounds)
+    for idx in range(len(posTrainingImgs)):
+        posTrainingImgs[idx][0] = Preprocess.Crop(posTrainingImgs[idx][0], bounds)
     print("Positive Trainging Images Cropped")
-    negTrainingImgs = Preprocess.Crop(negTrainingImgs, rootPath+folderPath, "Train data/Negative data", bounds)
+
+    for idx in range(len(negTrainingImgs)):
+        negTrainingImgs = Preprocess.Crop(negTrainingImgs[idx][0], bounds)
     print("Negative Training Images Cropped")
+    negTrainingImgs[0][0].show()
     """
         1) Uniform Aspect Ratio -- we'll want to crop the image into a square and detemin where in the image we want to be looking
             pass

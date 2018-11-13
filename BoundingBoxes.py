@@ -1,8 +1,20 @@
 from PIL import Image, ImageDraw
 import os
-
+#This function is under construction -- needs to be updated for generalizability
 def  BoundingBoxes(img, pos, boundedFolder, counter):
+    """Draws boxes on top of provided image at location defined by the pos argument
+        images are saved in the path defined by the boundedFolder as counter+".jpg"
 
+        :param  img:            Images
+        :type   img:            Image.open()
+        :param  pos:            position of box corners given as [x, y, x+Delta_X, y+Delta_y]
+        :type   pos:            String, 2D List
+        :param  boundedFolder:  Folder to save images
+        :type   boundedFolder:  String
+        :param  counter:        index
+        :type   counter:        int
+        :returns:               Nothing 
+    """
 
 
     try:
