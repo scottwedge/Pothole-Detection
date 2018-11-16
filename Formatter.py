@@ -20,14 +20,7 @@ def ParsData(rootPath, trainingFile):
             tempLine = line
             tempLine = tempLine.split(".bmp")
             fileType = tempLine[0].split("\\")
-            #parsesdFile = parsedFile.append(fileType[0]+"/"+fileType[1]+"/")
-            """
-            #Only needed for testing
-            try:
-                img = rootPath+"/Dataset 1 (Simplex)/Train data/Positive data/"+fileType[2]+".jpg"
-            except:
-                img = None
-                """
+
             tempData = tempLine[1].split(" ")
 
             try:
