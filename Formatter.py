@@ -46,8 +46,6 @@ def ParsData(trainingFile):
             tempParsed.append(fileType[2])
             parsed.append(tempParsed)
 
-            #print(parsed[0])
-            #BoundingBoxes(img, parsedData, parsedFile, counter)#was only needed for testing
             counter += 1
         return parsed
 

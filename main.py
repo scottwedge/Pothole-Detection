@@ -1,19 +1,26 @@
-import Preprocess
-import Formatter
 from pathlib import Path
 from PIL import Image
+import numpy as np
+
+import Preprocess
+import Formatter
 
 def main():
     rootPath = '/'.join(str(Path().absolute()).split('\\'))
     folderPath = "/Dataset 1 (Simplex)"
     trainingFile = "simpleTrainFullPhotosSortedFullAnnotations.txt"
-    bounds = (765,0,3185,2420)
+    bounds = (765,0,3185,2420) #Predefined by looking at dataset -- will need to be changed based on dataset
+
+    posTrainingData = []
+    negTrainingData = []
     #Format Data
     parsedData = Formatter.ParsData(rootPath+folderPath+'/'+trainingFile) #[[xy position], type, image]
-    #print(parsedData[0])
+
     posTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Positive data", parsedData, type = "jpg")
     print("Positive Trainging Images Loaded")
+
     negTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Negative data", parsedData="Negative", type = "jpg")
+    print(negTrainingImgs[0][0])
     print("Negative Training Images Loaded")
 
 
@@ -41,13 +48,17 @@ def main():
     #Aspect Ratio
     #Need to OPTIMIZE  this portion -- it takes to long for real time applications
     for idx in range(len(posTrainingImgs)):
-        posTrainingImgs[idx][0] = Preprocess.Crop(posTrainingImgs[idx][0], bounds)
+        pos = Preprocess.Crop(posTrainingImgs[idx][0], bounds)
+        posTrainingData.append(np.asarray(pos, dtype="int32"))
     print("Positive Trainging Images Cropped")
-
+    print(posTrainingData)
+    print(posTrainingData[0])
+    """
     for idx in range(len(negTrainingImgs)):
-        negTrainingImgs = Preprocess.Crop(negTrainingImgs[idx][0], bounds)
+        negTrainingImgs[idx][0] = Preprocess.Crop(negTrainingImgs[idx][0], bounds)
+        negTrainingData.append(np.asarray(negTrainingImgs[idx][0], dtype="int32"))
     print("Negative Training Images Cropped")
-
+    """
     #Image Scaling
 
 
