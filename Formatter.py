@@ -41,11 +41,12 @@ def ParsData(trainingFile):
                         idx = idx + 4
                     except:
                         continue
-
+            """
             tempParsed.append(parsedData)
             tempParsed.append(fileType[2])
             parsed.append(tempParsed)
-
+            """
+            parsed.append(fileType[2])
             counter += 1
         return parsed
 

@@ -1,6 +1,8 @@
 from pathlib import Path
 from PIL import Image
 import numpy as np
+from sklearn import preprocessing
+
 
 import Preprocess
 import Formatter
@@ -11,8 +13,6 @@ def main():
     trainingFile = "simpleTrainFullPhotosSortedFullAnnotations.txt"
     bounds = (765,0,3185,2420) #Predefined by looking at dataset -- will need to be changed based on dataset
 
-    posTrainingData = []
-    negTrainingData = []
     #Format Data
     parsedData = Formatter.ParsData(rootPath+folderPath+'/'+trainingFile) #[[xy position], type, image]
 
@@ -20,9 +20,10 @@ def main():
     print("Positive Trainging Images Loaded")
 
     negTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Negative data", parsedData="Negative", type = "jpg")
-    print(negTrainingImgs[0][0])
+    print(negTrainingImgs[0])
     print("Negative Training Images Loaded")
 
+    del parsedData
 
     #Preprocessing
     """
@@ -42,25 +43,26 @@ def main():
     6) Data Augmentation -- Commonly used to increase training images by scaling, rotating, and other affine transformations used to expose
         the neural network to a wider array of variations if data is small; out data will be small so we will definietly need to do this
 
-    Each of these are useful for other applications as well and should be their own functions within their own
-    script (class) so that we can use them for future use
     """
     #Aspect Ratio
     #Need to OPTIMIZE  this portion -- it takes to long for real time applications
     for idx in range(len(posTrainingImgs)):
-        pos = Preprocess.Crop(posTrainingImgs[idx][0], bounds)
-        posTrainingData.append(np.asarray(pos, dtype="int32"))
-    print("Positive Trainging Images Cropped")
-    print(posTrainingData)
-    print(posTrainingData[0])
-    """
-    for idx in range(len(negTrainingImgs)):
-        negTrainingImgs[idx][0] = Preprocess.Crop(negTrainingImgs[idx][0], bounds)
-        negTrainingData.append(np.asarray(negTrainingImgs[idx][0], dtype="int32"))
-    print("Negative Training Images Cropped")
-    """
-    #Image Scaling
+    #for idx in range(3):
+        pos = Preprocess.Crop(posTrainingImgs[idx], bounds)
+        posTrainingData = np.asarray(pos, dtype="uint8")#Turns image in to a numpy array between 0 255
 
+    print("Positive Trainging Images Cropped")
+    del posTrainingImgs
+    for idx in range(len(negTrainingImgs)):
+    #for idx in range(3):
+        neg = Preprocess.Crop(negTrainingImgs[idx], bounds)
+        negTrainingData = np.asarray(neg, dtype="uint8")
+    print("Negative Training Images Cropped")
+    del negTrainingImgs
+    #Image Scaling
+    #posTrainingData =np.interp(posTrainingData, (posTrainingData.min(), posTrainingData.max()), (0, 1))#Normalize image between 0 and 1 --Does not look useful
+    #img = Image.fromarray(posTrainingData, 'RGB')#Converts numpy array back to an image
+    #img.show()
 
     #Train CNN
 

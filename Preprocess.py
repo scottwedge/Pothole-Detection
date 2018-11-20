@@ -23,21 +23,28 @@ def LoadFile(imageFolder, parsedData, type):
     if parsedData == "Negative":
         for fileName in glob.glob(imageFolder+'/*.'+type):
             im=Image.open(fileName)
+            """
             imageInfo.append(im)
             imageInfo.append(None)
             imageList.append(imageInfo)
+            """
+            imageList.append(im)
             imageInfo = []
     else:
         #Looks for Image within folder and ties it to the coorect coordinates for the boxes
         #for s in parsedData[counter][1]:
-        for fileName in glob.glob(imageFolder+'/*.jpg'):
+        for fileName in glob.glob(imageFolder+'/*.'+type):
             for counter in range(len(parsedData)):
-                s = parsedData[counter][1]
+                s = parsedData[counter]
+
                 if s in fileName:
                     im=Image.open(fileName)
+                    """
                     imageInfo.append(im)
-                    imageInfo.append(parsedData[counter][0])
+                    imageInfo.append(parsedData[counter])
                     imageList.append(imageInfo)
+                    """
+                    imageList.append(im)
                 imageInfo = []
 
     return imageList
