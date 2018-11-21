@@ -1,35 +1,34 @@
 from pathlib import Path
 from PIL import Image #Look into using Matplotlib
 import numpy as np
-from sklearn import preprocessing
-
-import tensorflow as tf
-from tensorflow import keras
 
 import time
 
 import Preprocess
 import Formatter
+import Classify
 
 def main():
     start = time.clock()
+
     rootPath = '/'.join(str(Path().absolute()).split('\\'))
     folderPath = "/Dataset 1 (Simplex)"
     trainingFile = "simpleTrainFullPhotosSortedFullAnnotations.txt"
+
     bounds = (765,0,3185,2420) #Predefined by looking at dataset -- will need to be changed based on dataset
     trainImg = []
     trainLabels = []
     #Format Data
-    parsedData = Formatter.ParsData(rootPath+folderPath+'/'+trainingFile) #[[xy position], type, image]
+    #parsedData = Formatter.ParsData(rootPath+folderPath+'/'+trainingFile) #[[xy position], type, image]
 
-    posTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Positive data", parsedData, type = "jpg")
+    posTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Positive data", parsedData="Positive", type = "jpg")
     print("Positive Trainging Images Loaded")
 
     negTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Negative data", parsedData="Negative", type = "jpg")
     print(negTrainingImgs[0])
     print("Negative Training Images Loaded")
 
-    del parsedData
+    #del parsedData
 
     #Preprocessing
     """
@@ -54,8 +53,9 @@ def main():
     #for idx in range(len(posTrainingImgs)):
     for idx in range(3):
         pos = Preprocess.Crop(posTrainingImgs[idx], bounds)
-        trainImg = np.asarray(pos, dtype="uint8")#Turns image in to a numpy array between 0 255
-        trainLabels.append("Pothole")
+        pos = np.asarray(pos, dtype="uint8")#Turns image in to a numpy array between 0 255
+        trainImg.append(pos)
+        trainLabels.append(1)
     print("Positive Trainging Images Cropped")
 
     del posTrainingImgs
@@ -64,19 +64,31 @@ def main():
     #for idx in range(len(negTrainingImgs)):
     for idx in range(3):
         neg = Preprocess.Crop(negTrainingImgs[idx], bounds)
-        trainImg = np.asarray(neg, dtype="uint8")
-        trainLabels.append("No Pothole")
+        neg = np.asarray(neg, dtype="uint8")#Turns image in to a numpy array between 0 255
+        trainImg.append(neg)
+        trainLabels.append(0)
     print("Negative Training Images Cropped")
 
     del negTrainingImgs
+    del neg
 
-    trainImg
     #Image Scaling
     #posTrainingData =np.interp(posTrainingData, (posTrainingData.min(), posTrainingData.max()), (0, 1))#Normalize image between 0 and 1 --Does not look useful
-    #img = Image.fromarray(posTrainingData, 'RGB')#Converts numpy array back to an image
+    #img = Image.fromarray(trainImg[0], 'RGB')#Converts numpy array back to an image
     #img.show()
 
     #Train CNN
+    Classify.Classifier(trainImg, trainLabels)
+
+
+
+
+
+
+
+
+
+
 
     stop = time.clock()
     print("Time: "+str((stop-start)/60))
