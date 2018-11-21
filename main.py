@@ -1,6 +1,7 @@
 from pathlib import Path
 from PIL import Image #Look into using Matplotlib
 import numpy as np
+import tensorflow as tf
 
 import time
 
@@ -25,7 +26,6 @@ def main():
     print("Positive Trainging Images Loaded")
 
     negTrainingImgs = Preprocess.LoadFile(rootPath+folderPath+"/Train data/Negative data", parsedData="Negative", type = "jpg")
-    print(negTrainingImgs[0])
     print("Negative Training Images Loaded")
 
     #del parsedData
@@ -53,18 +53,19 @@ def main():
     #for idx in range(len(posTrainingImgs)):
     for idx in range(3):
         pos = Preprocess.Crop(posTrainingImgs[idx], bounds)
-        pos = np.asarray(pos, dtype="uint8")#Turns image in to a numpy array between 0 255
+        #pos = np.asarray(pos, dtype="uint8")#Turns image in to a numpy array between 0 255
+        pos = tf.convert_to_tensor(np.asarray(pos, dtype="uint8"), dtype=tf.float16)#Turns image in to a tensor
         trainImg.append(pos)
         trainLabels.append(1)
     print("Positive Trainging Images Cropped")
-
+    print(trainImg[0])
     del posTrainingImgs
     del pos
 
     #for idx in range(len(negTrainingImgs)):
     for idx in range(3):
         neg = Preprocess.Crop(negTrainingImgs[idx], bounds)
-        neg = np.asarray(neg, dtype="uint8")#Turns image in to a numpy array between 0 255
+        neg = tf.convert_to_tensor(np.asarray(neg, dtype="uint8"), dtype=tf.float16)#Turns image in to a tensor 
         trainImg.append(neg)
         trainLabels.append(0)
     print("Negative Training Images Cropped")
