@@ -1,12 +1,13 @@
 import os
-from PIL import Image
-from pathlib import Path
-import glob
-
 from BoundingBoxes import BoundingBoxes
 
-def ParsData(rootPath, trainingFile):
+def ParsData(trainingFile):
+    """Parses text file to extract the pothole location according to pixels, the type of data training/testing positive/negative, and image name
 
+        :param trainingFile:    text file with information about dataset
+        :type  trainingFile:    String
+        :returns:               parsed
+    """
     counter = 0
 
     parsed = []
@@ -41,41 +42,15 @@ def ParsData(rootPath, trainingFile):
                         idx = idx + 4
                     except:
                         continue
-            #print(parsedData[0])
+            """
             tempParsed.append(parsedData)
-            #tempParsed.append(parsedFile)
-            #print(fileType[2])
             tempParsed.append(fileType[2])
             parsed.append(tempParsed)
-            #print(parsed[0])
-            #BoundingBoxes(img, parsedData, parsedFile, counter)#was only needed for testing
+            """
+            parsed.append(fileType[2])
             counter += 1
         return parsed
 
-def LoadFile(imageFolder, parsedData):
 
-    imageList = []
-    imageInfo = []
-    counter = 0
-    if parsedData == "Negative":
-        for fileName in glob.glob(imageFolder+'/*.jpg'):
-            im=Image.open(fileName)
-            imageInfo.append(im)
-            imageInfo.append(None)
-            imageList.append(imageInfo)
-            imageInfo = []
-    else:
-        for s in parsedData[counter][1]:
-            for fileName in glob.glob(imageFolder+'/*.jpg'):
-                for counter in range(len(parsedData)):
-                    s = parsedData[counter][1]
-                    if s in fileName:
-                        im=Image.open(fileName)
-                        imageInfo.append(im)
-                        imageInfo.append(parsedData[counter][0])
-                        imageList.append(imageInfo)
-
-                    imageInfo = []
-    return imageList
 
 if __name__ == '__main__': ParsData('/'.join(str(Path().absolute()).split('\\')), "simpleTrainFullPhotosSortedFullAnnotations.txt")
