@@ -21,6 +21,7 @@ def ParsData(trainingFile):
             tempLine = line
             tempLine = tempLine.split(".bmp")
             fileType = tempLine[0].split("\\")
+
             tempData = tempLine[1].split(" ")
 
             try:
