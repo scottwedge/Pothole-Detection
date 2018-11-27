@@ -51,28 +51,29 @@ def main():
     """
     #Aspect Ratio
     #for idx in range(len(posTrainingImgs)):
-    for idx in range(3):
+    for idx in range(1):
         pos = Preprocess.Crop(posTrainingImgs[idx], bounds)
         #pos = np.asarray(pos, dtype="uint8")#Turns image in to a numpy array between 0 255
         pos = tf.convert_to_tensor(np.asarray(pos, dtype="uint8"), dtype=tf.float16)#Turns image in to a tensor
         trainImg.append(pos)
         trainLabels.append(1)
     print("Positive Trainging Images Cropped")
-    print(trainImg[0])
+
     del posTrainingImgs
     del pos
 
+    """
     #for idx in range(len(negTrainingImgs)):
-    for idx in range(3):
+    for idx in range(1):
         neg = Preprocess.Crop(negTrainingImgs[idx], bounds)
-        neg = tf.convert_to_tensor(np.asarray(neg, dtype="uint8"), dtype=tf.float16)#Turns image in to a tensor 
+        neg = tf.convert_to_tensor(np.asarray(neg, dtype="uint8"), dtype=tf.float16)#Turns image in to a tensor
         trainImg.append(neg)
         trainLabels.append(0)
     print("Negative Training Images Cropped")
 
     del negTrainingImgs
     del neg
-
+    """
     #Image Scaling
     #posTrainingData =np.interp(posTrainingData, (posTrainingData.min(), posTrainingData.max()), (0, 1))#Normalize image between 0 and 1 --Does not look useful
     #img = Image.fromarray(trainImg[0], 'RGB')#Converts numpy array back to an image

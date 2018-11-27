@@ -22,10 +22,25 @@ def Classifier(trainImg, trainLabels):
 
     #for idx in range(len(trainImg)):
     for idx in range(1):
-        input = trainImg[idx] #Dementions (2420, 2420, 3)
+        input = tf.reshape(trainImg[idx], shape=[-1,2420,2420,3]) #Dementions (2420, 2420, 3)
         print("TEST")
-        conv1 = tf.layers.conv1d(inputs = input,activation='relu', filters=5,kernel_size=1 ,strides=1, padding='valid',name='conv1')
-        print(conv1)
+        conv1 = tf.layers.conv2d(
+            inputs = input,
+            filters=5,
+            kernel_size=1,
+            strides=1,
+            padding='valid',
+            activation='relu',
+            name='conv1')
+
+        pool1 = tf.layers.average_pooling2d(
+            inputs=conv1,
+            pool_size=2,
+            strides=2,
+            padding='same',
+            name="pool1")
+
+        print(pool1)
         print("TEST")
 
 
